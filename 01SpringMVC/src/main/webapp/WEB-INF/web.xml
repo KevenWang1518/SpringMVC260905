@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <!--配置前端控制器，SpringMVC框架内置好的。-->
+    <!--在SpringMVC当中，所有的请求过来之后，都要先经过前端控制器。除非你是JSP的请求路径。-->
+    <servlet>
+        <servlet-name>springmvc01</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <!--重新指定springmvc01配置文件的路径，放在根路径下，没有放到/WEB-INF/templates/-->
+        <!--告诉DispatcherServlet：启动的时候，去类路径加载springmvc01.xml，读取里面的组件扫描、视图解析器、注解驱动等SpringMVC配置。
+
+        ##如果不写这一段会发生什么？
+        DispatcherServlet会默认去WEB‑INF下面找文件：springmvc‑servlet.xml
+        规则：{servlet‑name}-servlet.xml。
+        你这里servlet‑name是springmvc，就会去找/WEB‑INF/springmvc‑servlet.xml。
+
+        两种写法对比：
+        1.写init‑paramcontextConfigLocation：自定义配置文件位置和文件名，一般放到resources下，classpath:springmvc.xml，项目结构更清晰。
+        2.不写init‑param：必须把配置文件放到WEB‑INF目录，且名字必须是springmvc‑servlet.xml，不能随便起名。
+
+        ##classpath说明
+        Mavenweb项目，resources目录下的文件编译后会放到类路径(classpath)，所以写classpath:springmvc.xml就代表resources下面的springmvc.xml。
+        -->
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>classpath:springmvc01.xml</param-value>
+        </init-param>
+        <!--优化方案:在Tomcat服务器启动的时候，就初始化DispatcherServlet，这样用户第一次访问的时候，体验快点好点。-->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>springmvc01</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+</web-app>

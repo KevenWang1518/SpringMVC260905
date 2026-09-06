@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>index page</title>
+</head>
+<body>
+<h1>Welcome to index page!</h1>
+<h2>学习@RequestMapping注解</h2>
+<h3>1.@RequestNapping注解的作用:将前端发送请求的URL和后端的某个Controller#method()绑定在一起。(请求映射)</h3>
+<h3>2.@RequestMapping注解可以出现的位置:(1)类上面。(2)方法上面。</h3>
+<h3>3.@RequestMapping注解―般情况下都是类上和方法上结合使用。</h3>
+<hr>
+<a th:href="@{/user/detail}">查看用户详情</a>
+<br>
+<a th:href="@{/product/detail}">查看商品详情</a>
+<br>
+<a th:href="@{/student/detail}">查看学生详情</a>
+<br>
+<a th:href="@{/student/modify}">修改学生信息</a>
+</body>
+</html>

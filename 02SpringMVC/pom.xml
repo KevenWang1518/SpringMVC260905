@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.wyjun</groupId>
-    <artifactId>00SpringMVC</artifactId>
+    <artifactId>02SpringMVC</artifactId>
     <version>1.0-SNAPSHOT</version>
     <!--web项目是war包-->
     <packaging>war</packaging>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <!--配置前端控制器，SpringMVC框架内置好的。-->
+    <!--在SpringMVC当中，所有的请求过来之后，都要先经过前端控制器。除非你是JSP的请求路径。-->
+    <servlet>
+        <servlet-name>springmvc01</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>springmvc01</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
+    <!--
+        1. / 是 Spring MVC 官方推荐写法。
+        2. /* 会拦截所有路径，包括 xx.jsp，jsp应该交由Web容器内置的JspServlet自动处理，Spring MVC不应该拦截。因此不建议写 /*
+        3. / 在Servlet中我们详解学习过，它拦截的所有静态资源路径、所有找不到精确Servlet的路径，默认情况下 / 在web服务器中都
+        对应一个默认的Servlet，Tomcat服务器中默认Servlet在web.xml文件中配置的：org.apache.catalina.servlets.DefaultServlet
+        4. / 不拦截xx.jsp的请求。
+        5. SpringMVC中的DispatcherServlet代替了Web服务器提供的默认Servlet：org.apache.catalina.servlets.DefaultServlet
+        6. / 会拦截所有的静态资源。看似是一个缺点。实则是优点。优点有三个：
+            第一：支持 RESTful URL
+            RESTfuL是一种更加优雅的URL风格。
+            传统的URL:
+                http://localhost:8080/app/save?name=jack&age=20&email=jack@123.com
+            RESTfuL风格的URL，更加优雅:
+                http://localhost:8080/app/save/jack/20/jakc@123.com
+            第二：放行 JSP 给Web容器
+            第三：促使使用更优的静态资源方案（web容器自带Servlet处理静态资源效率低。
+            Spring框架处理静态资源效率高：例如spring提供了缓存控制等高级功能）
+    -->
+</web-app>

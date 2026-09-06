@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<!--指定 th 命名空间，让 Thymeleaf 标准表达式可以被解析和执行-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>This is my first springmvc</title>
+</head>
+<body>
+<h1>Hello Spring MVC程序01</h1>
+<h1>我的第一个Spring MVC程序01</h1>
+
+<!--这种写法，会在请求路径前面自动添加项目的根路径。-->
+<!--最终thymeleaf解析完的效果是?href="/00springmvc//springmvc02"-->
+<a th:href="@{/springmvc02}">链接至第2个springmvc页面</a>
+
+</body>
+</html>
