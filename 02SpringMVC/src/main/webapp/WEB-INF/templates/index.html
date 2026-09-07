@@ -22,5 +22,23 @@
 <a th:href="@{/a}">a测试@RequestMapping注解的value和path属性</a>
 <br>
 <a th:href="@{/b}">b测试@RequestMapping注解的value和path属性</a>
+<hr>
+
+<!--准备一个表单，发送post请求。-->
+<form th:action="@{/save}" method="post">
+    <button>POST提交</button>
+</form>
+
+<!--准备一个表单，发送get请求。-->
+<form th:action="@{/save}" method="get">
+    <button>GET提交</button>
+</form>
+
+<!--虽然这里编写的method="put"，但仍然是以get方式提交。-->
+<!--怎么才能发送put请求?需要通过ajax请求发送。-->
+<form th:action="@{/save}" method="put">
+    <button>PUT提交</button>
+</form>
+
 </body>
 </html>
