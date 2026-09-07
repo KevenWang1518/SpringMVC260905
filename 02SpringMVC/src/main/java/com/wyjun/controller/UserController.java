@@ -8,7 +8,7 @@ public class UserController {
 
     @RequestMapping("/user/detail")
     public String detail() {
-        System.out.println("查看用户信息");
+        System.out.println("display user detail");
         return "/user/detail"; //相当于最终生成"/WEB-INF/templates" + "/user/detail" + ".html"
     }
 }

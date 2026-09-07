@@ -8,7 +8,7 @@ public class ProductController {
 
     @RequestMapping("/product/detail")
     public String detail() {
-        System.out.println("查看商品明细");
+        System.out.println("display product detail");
         return "/product/detail"; //相当于最终生成"/WEB-INF/templates" + "/product/detail" + ".html"
     }
 }
