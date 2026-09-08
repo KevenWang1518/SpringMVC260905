@@ -16,4 +16,17 @@ public class ValueController {
         System.out.println("测试@RequestMapping注解的value和path属性");
         return "success";
     }
+
+    //(1)ant风格中的?代表任意一个字符(但不包含?和/)
+    //@RequestMapping("/x?z/abc")
+
+    //(2)ant风格中的*代表0到N个任意字符，但不包含/
+    //@RequestMapping("/x*z/abc")
+
+    //(3)ant风格中的/**代表0到N个任意字符，包含/，个别老版本的spring web mvc如果**不放到末尾会报异常。
+    //@RequestMapping("/**/xyz")
+    @RequestMapping("/xyz/**")
+    public String testAntPath() {
+        return "success";
+    }
 }
