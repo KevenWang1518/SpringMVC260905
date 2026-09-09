@@ -1,6 +1,7 @@
 package com.wyjun.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -27,6 +28,12 @@ public class ValueController {
     //@RequestMapping("/**/xyz")
     @RequestMapping("/xyz/**")
     public String testAntPath() {
+        return "success";
+    }
+
+    @RequestMapping("/testpath/{id}/{name}/{age}")
+    public String testRESTfulPath(@PathVariable("id") Integer pathID, @PathVariable("name") String pathName, @PathVariable("age") Integer pathAge) {
+        System.out.println(pathID + "-" + pathName + "-" + pathAge);
         return "success";
     }
 }
