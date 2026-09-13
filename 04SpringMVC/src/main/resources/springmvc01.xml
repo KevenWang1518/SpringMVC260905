@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           https://www.springframework.org/schema/context/spring-context.xsd">
+    <!--组件扫描-->
+    <context:component-scan base-package="com.wyjun"/>
+
+    <!--三个bean：视图解析器、模板引擎、模板解析器。三个bean之间是委托关系。-->
+    <!--视图解析器:它负责将  逻辑视图名  转换成  视图对象“ThymeleafView”-->
+    <bean id="thymeleafViewResolver" class="org.thymeleaf.spring6.view.ThymeleafViewResolver">
+        <!--写响应结果（把拼好的 HTML 输出给浏览器）时用的编码-->
+        <property name="characterEncoding" value="UTF-8"/>
+        <!--如果配置多个视图解析器，它来决定优先使用哪个视图解析器，它的值越小优先级越高-->
+        <property name="order" value="1"/>
+        <!--模板引擎：视图对象渲染时需要使用模板引擎。它负责将模板和数据合并，生成 HTML-->
+        <property name="templateEngine">
+            <bean class="org.thymeleaf.spring6.SpringTemplateEngine">
+                <!--模板解析器：它负责告诉模板引擎去哪里找模板文件-->
+                <property name="templateResolver">
+                    <bean class="org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver">
+                        <!--设置模板文件的位置（前缀）-->
+                        <property name="prefix" value="/WEB-INF/templates/"/>
+                        <!--设置模板文件后缀（后缀），Thymeleaf文件扩展名不一定是html，也可以是其他，例如txt，大部分都是html-->
+                        <property name="suffix" value=".html"/>
+                        <!--设置模板类型，例如：HTML,TEXT,JAVASCRIPT,CSS等-->
+                        <property name="templateMode" value="HTML"/>
+                        <!--读模板文件（如 .html）时用的编码-->
+                        <property name="characterEncoding" value="UTF-8"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+</beans>
