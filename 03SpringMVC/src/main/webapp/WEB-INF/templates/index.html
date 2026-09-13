@@ -6,5 +6,41 @@
 </head>
 <body>
 <h1>映射成功之后，在后端编写程序以获取前端提交的数据</h1>
+<h3>用户注册</h3>
+<hr>
+<form th:action="@{/register}" method="post">
+    用户名：<input type="text" name="username"><br>
+    密码：<input type="password" name="password"><br>
+    性别：
+    男 <input type="radio" name="sex" value="1">
+    女 <input type="radio" name="sex" value="0">
+    <br>
+    爱好：
+    跑步 <input type="checkbox" name="hobby" value="1">
+    唱歌 <input type="checkbox" name="hobby" value="2">
+    跳舞 <input type="checkbox" name="hobby" value="3">
+    <br>
+    简介：<textarea rows="10" cols="60" name="introduce"></textarea><br>
+    <input type="submit" value="注册">
+</form><hr>
+
+<form th:action="@{/register2}" method="post">
+    用户名：<input type="text" name="username"><br>
+    密码：<input type="password" name="password"><br>
+    性别：
+    男 <input type="radio" name="sex" value="1">
+    女 <input type="radio" name="sex" value="0">
+    <br>
+    爱好：
+    跑步 <input type="checkbox" name="hobby" value="1">
+    唱歌 <input type="checkbox" name="hobby" value="2">
+    跳舞 <input type="checkbox" name="hobby" value="3">
+    <br>
+    简介：<textarea rows="10" cols="60" name="introduce"></textarea><br>
+    <input type="submit" value="注册">
+</form><hr>
+
+<hr>
+<a th:href="@{/downloadpic}">下载图片</a>
 </body>
 </html>
