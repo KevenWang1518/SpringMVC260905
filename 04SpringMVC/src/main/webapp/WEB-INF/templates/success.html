@@ -7,5 +7,12 @@
 <body>
 <h1>success page</h1>
 <h1 th:text="${username}"></h1>
+
+<h1 th:text="${session.username}"></h1>
+<h1 th:text="${session.sex}"></h1>
+<h1 th:text="${session.age}"></h1>
+
+<h1 th:text="|app-path:${application.contextPath}|"></h1>
+<h1 th:text="|file-path:${filePath}|"></h1>
 </body>
 </html>

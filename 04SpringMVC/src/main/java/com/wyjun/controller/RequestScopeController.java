@@ -16,7 +16,7 @@ public class RequestScopeController {
     //redirect（重定向）：两次请求，地址栏改变，request不共享
 
     //Servlet API参数request会被spring自动注入。
-    @GetMapping("requesttest1")
+    @GetMapping("request/test1")
     public String requestTest1(HttpServletRequest request) {
 
         //向request域中绑定数据。
@@ -27,7 +27,7 @@ public class RequestScopeController {
     }
 
     // 使用Model接口也可以达到request域的效果。
-    @GetMapping("requesttest2")
+    @GetMapping("request/test2")
     public String requestTest2(Model model) {
 
         //向request域中绑定数据。
@@ -40,7 +40,7 @@ public class RequestScopeController {
     }
 
     // 这种方式:map参数spring框架也会自动注入。这个map默认情况下是专门用来存储Model数据的。
-    @GetMapping("requesttest3")
+    @GetMapping("request/test3")
     public String requestTest3(Map<String, Object> attributeMap) {
 
         //向map集合中添加键值对。
@@ -50,7 +50,7 @@ public class RequestScopeController {
         return "success";
     }
 
-    @GetMapping("requesttest4")
+    @GetMapping("request/test4")
     public String requestTest4(ModelMap modelMap) {
 
         //这个ModelMap对象也可以存储Model数据。
@@ -61,7 +61,7 @@ public class RequestScopeController {
         return "success";
     }
 
-    @GetMapping("requesttest5")
+    @GetMapping("request/test5")
     public ModelAndView requestTest5() {
 
         // 不需要框架注入了（上面方法不需要形参了），需要自己手动new一个ModelAndView对象。
