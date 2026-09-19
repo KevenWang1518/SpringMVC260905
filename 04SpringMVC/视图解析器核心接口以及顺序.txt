@@ -1,0 +1,26 @@
+1.关于SpringMVC视图解析的核心接口：
+
+第一个:ViewResolverRegistry#register(完成视图解析器的注册。)
+第二个:DispatcherServlet#doDispatch(中央调度器)
+第三个:ViewResolver#resolveViewName(将逻辑视图名转换成物理视图名，最终返回的对象是View对象。)
+第四个:View#render(最终负责渲染的，将Model和模板字符串揉合在一起，生成最终的HTML代码，响应到浏览器。)
+
+2.描述一下视图技术的执行顺序:
+
+第一步:在服务器启动阶段，通过 ViewResoLverRegistry#register 方法完成 ViewResolver 的注册。将ViewResolver纳入IoC容器的管理。
+       这样的话，SpringMVC就知道整个容器中都有哪些 视图解析器对象 了。
+
+第二步:当用户发送请求之后，请求到达DispatcherSerVLet#doDispatch 方法，该方法处理核心业务逻辑。并且最终返回一个“逻辑视图名称”。
+
+第三步:DispatcherServlet#doDispatch 方法继续调用 ViewResolver#resolveViewName 方法，将 逻辑视图名称封装为 视图对象View.
+       这个过程主要是将逻辑视图名 封装为 真正的视图View对象(你也可以这样理解:这个步骤完成了逻辑视图名===>物理视图名的转换...)
+
+第四步:继续执行View视图对象的render方法，在该方法中，将Model和模板字符串进行动态的拼接，生成最终的全静态的HTML代码，将HTML代码响应到浏览器。这个render方法叫做渲染。
+
+3.自己定制视图技术，怎么做?
+
+第一步:编写一个类实现 ViewResolver接口中的resolveViewName()方法。该方法返回一个View对象。在该方法中你需要完成逻辑视图名向物理视图名的转换。
+
+第二步:编写一个类实现View接口中的render()方法，完成Model和模板字符串的拼接，生成最终HTML代码，并响应。
+
+第三步:在spring容器启动的时候，使用ViewResolverRegistry#register完成视图解析器对象的注册。

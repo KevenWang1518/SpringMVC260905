@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           https://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/mvc
+                           https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--组件扫描-->
+    <context:component-scan base-package="com.wyjun"/>
+
+    <!--三个bean：视图解析器、模板引擎、模板解析器。三个bean之间是委托关系。-->
+    <!--视图解析器:它负责将  逻辑视图名  转换成  视图对象“ThymeleafView”-->
+    <bean id="thymeleafViewResolver" class="org.thymeleaf.spring6.view.ThymeleafViewResolver">
+        <!--写响应结果（把拼好的 HTML 输出给浏览器）时用的编码-->
+        <property name="characterEncoding" value="UTF-8"/>
+        <!--如果配置多个视图解析器，它来决定优先使用哪个视图解析器，它的值越小优先级越高-->
+        <property name="order" value="1"/>
+        <!--模板引擎：视图对象渲染时需要使用模板引擎。它负责将模板和数据合并，生成 HTML-->
+        <property name="templateEngine">
+            <bean class="org.thymeleaf.spring6.SpringTemplateEngine">
+                <!--模板解析器：它负责告诉模板引擎去哪里找模板文件-->
+                <property name="templateResolver">
+                    <bean class="org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver">
+                        <!--设置模板文件的位置（前缀）-->
+                        <property name="prefix" value="/WEB-INF/templates/"/>
+                        <!--设置模板文件后缀（后缀），Thymeleaf文件扩展名不一定是html，也可以是其他，例如txt，大部分都是html-->
+                        <property name="suffix" value=".html"/>
+                        <!--设置模板类型，例如：HTML,TEXT,JAVASCRIPT,CSS等-->
+                        <property name="templateMode" value="HTML"/>
+                        <!--读模板文件（如 .html）时用的编码-->
+                        <property name="characterEncoding" value="UTF-8"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!--配置其他的视图解析器。-->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="order" value="2"/>
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--配置 控制器-视图 映射关系-->
+    <!--第一步:要添加mvc的命名空间-->
+    <!--以下配置的含义:当用户发送的请求路径是/ 时，直接跳转到 index 视图。这样IndexController类就不需要编写了。-->
+    <mvc:view-controller path="/" view-name="index"/>
+    <!--第二步:开启注解驱动-->
+    <mvc:annotation-driven/>
+
+    <!--第一种方式：启用web容器内置的默认处理静态资源的Servlet-->
+    <!--如果配置了这个，那么静态资源的处理，仍然是web容器负责的。springmvc不管了。-->
+    <!--添加上这个配置之后，底层会注册一个处理器:DefaultServletHttpRequestHandler-->
+    <!--底层交给了WEB容器的DefauLtServlet来处理静态资源，这种方式性能较差。因为Tomcat服务器处理静态资源的时候没有优化。-->
+    <!--当用户发达请求路径是一个静态资源的时候，springmvc中的 DefaultServletHttpRequestHandLer 处理器会自动将请求转发给DefaultServlet来处理-->
+    <!--<mvc:default-servlet-handler/>-->
+
+    <!--第二种方式:springmvc自己负责静态资源响应处理了。不再找性能较低的DefaultServlet来负责了。-->
+    <!--前提是:需要通过以下的配置告诉springmvc，哪些资源属于静态资源。-->
+    <mvc:resources mapping="/static/**" location="/static/"/>
+</beans>
