@@ -7,11 +7,43 @@
 <body>
 <h1>映射成功之后，在后端编写程序以获取前端提交的数据</h1>
 <h3>用户注册</h3>
+
 <hr>
+<!--根据id查询：GET  /api/user/1 -->
+<a th:href="@{/api/user/1}">根据id查询用户信息</a><br>
+<hr>
+
+<hr>
+<!--查询所有：GET  /api/user-->
+<a th:href="@{/api/user}">查询所有用户</a><br>
+<hr>
+
+<hr>
+<!--保存用户信息-->
 <form th:action="@{/api/user}" method="post">
     用户名：<input type="text" name="username"><br>
     密码：<input type="password" name="password"><br>
-    <input type="submit" th:value="保存">
+    <input type="submit" th:value="新增并保存">
+</form>
+<hr>
+
+<hr>
+<!--删除用户信息-->
+<form th:action="@{/api/user/1}" method="post">
+    <!--隐藏域的方式提交  _method=delete -->
+    <input type="hidden" name="_method" value="delete">
+    <input type="submit" th:value="删除并保存">
+</form>
+
+<hr>
+<!--修改用户信息-->
+<form th:action="@{/api/user}" method="post">
+    <!--隐藏域的方式提交  _method=put -->
+    <input type="hidden" name="_method" value="put">
+
+    用户名：<input type="text" name="username"><br>
+    密码：<input type="password" name="password"><br>
+    <input type="submit" th:value="修改并保存">
 </form>
 <hr>
 

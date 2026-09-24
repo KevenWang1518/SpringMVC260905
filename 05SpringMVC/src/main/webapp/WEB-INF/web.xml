@@ -26,6 +26,16 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!--隐藏的HTTP请求方式过滤器-->
+    <!--配置过滤器，这个过滤器主要是用来识别具体是哪一种请求:这是springmvc的。-->
+    <filter>
+        <filter-name>hiddenHttpMethodFilter</filter-name>
+        <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>hiddenHttpMethodFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <!--配置前端控制器，SpringMVC框架内置好的。-->
     <!--在SpringMVC当中，所有的请求过来之后，都要先经过前端控制器。除非你是JSP的请求路径。-->
