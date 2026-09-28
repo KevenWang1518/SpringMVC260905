@@ -30,10 +30,33 @@
         <td th:text="${user.email}"></td>
         <td>
             <a th:href="@{'/user/modify/'+${user.id}}">修改</a>
-            <a th:href="@{'/user/delete/'+${user.id}}">删除</a>
+            <a th:href="@{'/user/delete/'+${user.id}}" onclick="del(event)">删除</a>
         </td>
     </tr>
     </tbody>
+
+    <script>
+        function del(event) {
+            // 阻止超链接的默认行为
+            event.preventDefault();
+
+            //发送DELETE请求。
+            if (confirm("您确定要删除数据吗?")) {
+                //提交表单
+                let userForm = document.querySelector("#userForm");
+                // 设置userForm的action属性。
+                userForm.action = event.target.href;
+                //提交表单
+                userForm.submit();
+            }
+        }
+    </script>
+
+    <!--准备一个表单form-->
+    <form method="post" id="userForm">
+        <input type="hidden" name="_method" value="delete">
+    </form>
+
 </table>
 </body>
 </html>

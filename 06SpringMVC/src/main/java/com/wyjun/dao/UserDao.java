@@ -42,4 +42,17 @@ public class UserDao {
     public User getUserById(Long id) {
         return users.stream().filter(user -> user.getId().equals(id)).findFirst().orElse(null);
     }
+
+    public void updateUserById(User user) {
+        for (int i = 0; i < users.size(); i++) {
+            if (user.getId().equals(users.get(i).getId())) {
+                users.set(i, user);
+                break;
+            }
+        }
+    }
+
+    public void deleteUserById(Long id) {
+        users.removeIf(user -> user.getId().equals(id));
+    }
 }

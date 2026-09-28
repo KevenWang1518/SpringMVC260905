@@ -33,8 +33,26 @@ public class UserController {
 
     @GetMapping("/user/modify/{id}")
     public String modifyUserById(@PathVariable("id") Long id, Model model) {
-        User user=userDao.getUserById(id);
-        model.addAttribute("user",user);
+        User user = userDao.getUserById(id);
+        model.addAttribute("user", user);
         return "user_edit";
+    }
+
+    @PutMapping("/user/update")
+    public String updateUserById(User user) {
+        //修改用户信息
+        userDao.updateUserById(user);
+
+        //更新用户后，重定向到列表页面
+        return "redirect:/user/list";
+    }
+
+    @DeleteMapping("/user/delete/{id}")
+    public String deleteUserById(@PathVariable("id") Long id) {
+        //删除用户信息
+        userDao.deleteUserById(id);
+
+        //更新用户后，重定向到列表页面
+        return "redirect:/user/list";
     }
 }
