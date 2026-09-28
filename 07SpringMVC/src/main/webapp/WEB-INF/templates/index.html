@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>关于springmvc中的消息转换器</title>
+
+    <!--引入axios的库:CDN-->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<body>
+<h1>HttpMessageConverter</h1>
+
+<!-- 使用axios发送ajax get请求，获取一个字符串。-->
+<button id="getMsgStringBtn">获取消息(普通字符串)</button>
+<div id="msgString"></div>
+
+<!-- 使用axios发送ajax get请求，获取一个json。-->
+<button id="getMsgJsonBtn">获取消息(json形式)</button>
+<div id="msgJson"></div>
+<br>
+username:<span id="username"></span><br>
+age:<span id="age"></span><br>
+
+<script>
+
+    //ajax发送get请求:axios.get(url,config)
+    //ajax发送post请求:axios.post(url,data,config)
+
+    // DOMContentLoaded：等HTML全部加载完毕之后再执行里面JS（防止还没渲染按钮，就去获取元素）
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // 根据id拿到页面上的【按钮】
+        let getMsgStringBtn = document.querySelector("#getMsgStringBtn");
+        // 根据id拿到页面上用来展示文字的【div盒子】
+        let msgStringDiv = document.querySelector("#msgString");
+
+        // 给按钮绑定【点击事件】，点击后执行异步函数
+        // 整体功能：页面加载完成后，点击按钮，用axios发GET请求访问后端接口"getMsgString"，拿到后端返回的字符串，展示在页面div里；出错就打印错误到控制台
+        getMsgStringBtn.addEventListener("click", async function () {
+            try {
+                // 发送ajax get请求，访问后端接口地址：getMsgString
+                // await 等待axios请求完成（网络请求是异步的，await会卡住这里，等后端返回结果才往下走）
+                let response = await axios.get("getMsgString");
+                // response.data 就是后端返回的数据（这里后端返回普通字符串）
+                let result = response.data;
+                // 把拿到的字符串放到div里面展示出来
+                msgStringDiv.textContent = result;
+            } catch (e) {
+                // 如果请求报错（404、500、网络不通），会进入catch，打印错误信息到浏览器控制台
+                console.log(e);
+            }
+        });
+
+
+        // 根据id拿到页面上的【按钮】
+        let getMsgJsonBtn = document.querySelector("#getMsgJsonBtn");
+        // 根据id拿到页面上用来展示文字的【div盒子】
+        let msgJsonDiv = document.querySelector("#msgJson");
+        let usernameSpan = document.querySelector("#username");
+        let ageSpan = document.querySelector("#age");
+
+        // 给按钮绑定【点击事件】，点击后执行异步函数
+        // 整体功能：页面加载完成后，点击按钮，用axios发GET请求访问后端接口"getMsgString"，拿到后端返回的json，展示在页面div里；出错就打印错误到控制台
+        getMsgJsonBtn.addEventListener("click", async function () {
+            try {
+                // 发送ajax get请求，访问后端接口地址：getMsgString
+                // await 等待axios请求完成（网络请求是异步的，await会卡住这里，等后端返回结果才往下走）
+                let response = await axios.get("getMsgJson");
+                // response.data 就是后端返回的数据（注意这里后端返回的是一个对象）
+                let result = response.data;
+                usernameSpan.textContent = result.username;
+                ageSpan.textContent = result.age;
+                // 把这个对象转换成json格式的字符串
+                let jsonStr = JSON.stringify(result);
+                // 把拿到的字符串放到div里面展示出来
+                msgJsonDiv.textContent = jsonStr;
+            } catch (e) {
+                // 如果请求报错（404、500、网络不通），会进入catch，打印错误信息到浏览器控制台
+                console.log(e);
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>
