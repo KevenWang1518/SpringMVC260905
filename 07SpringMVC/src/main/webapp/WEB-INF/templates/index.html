@@ -9,6 +9,7 @@
 </head>
 <body>
 <h1>HttpMessageConverter</h1>
+<hr>
 
 <!-- 使用axios发送ajax get请求，获取一个字符串。-->
 <button id="getMsgStringBtn">获取消息(普通字符串)</button>
@@ -21,6 +22,12 @@
 username:<span id="username"></span><br>
 age:<span id="age"></span><br>
 
+<hr>
+<button id="SendMsgJsonBtn">发送json给服务器</button>
+<div id="msgJson2"></div>
+<br>
+username:<span id="username2"></span><br>
+age:<span id="age2"></span><br>
 <script>
 
     //ajax发送get请求:axios.get(url,config)
@@ -60,7 +67,7 @@ age:<span id="age"></span><br>
         let ageSpan = document.querySelector("#age");
 
         // 给按钮绑定【点击事件】，点击后执行异步函数
-        // 整体功能：页面加载完成后，点击按钮，用axios发GET请求访问后端接口"getMsgString"，拿到后端返回的json，展示在页面div里；出错就打印错误到控制台
+        // 整体功能：页面加载完成后，点击按钮，用axios发GET请求访问后端接口"getMsgJson"，拿到后端返回的json，展示在页面div里；出错就打印错误到控制台
         getMsgJsonBtn.addEventListener("click", async function () {
             try {
                 // 发送ajax get请求，访问后端接口地址：getMsgString
@@ -80,6 +87,40 @@ age:<span id="age"></span><br>
             }
         });
 
+
+        // 发送ajax post请求，提交json给服务器
+        // 根据id拿到页面上的【按钮】
+        let SendMsgJsonBtn = document.querySelector("#SendMsgJsonBtn");
+        // 根据id拿到页面上用来展示文字的【div盒子】
+        let msgJson2 = document.querySelector("#msgJson2");
+        let usernameSpan2 = document.querySelector("#username2");
+        let ageSpan2 = document.querySelector("#age2");
+
+        // 给按钮绑定【点击事件】，点击后执行异步函数
+        // 整体功能：页面加载完成后，点击按钮，用axios发POST请求访问后端接口"sendMsgJson"，拿到后端返回的字符串，展示在页面div里；出错就打印错误到控制台
+        SendMsgJsonBtn.addEventListener("click", async function () {
+            try {
+
+                //准备数据。(造个对象就行，不需要自己弄一个JSON字符串。)
+                //不需要将js对象手动转换成json字符串,底层会自动转换。
+                let data = {username: "LucyZhang", age: 22};
+
+                // 发送ajax post请求，访问后端接口地址：sendMsgJson
+                // await 等待axios请求完成（网络请求是异步的，await会卡住这里，等后端返回结果才往下走）
+                let response = await axios.post("sendMsgJson", data);
+                // response.data 就是后端返回的数据（这里后端返回普通字符串）
+                let result = response.data;
+                usernameSpan2.textContent = result.username;
+                ageSpan2.textContent = result.age;
+                // 把这个对象转换成json格式的字符串
+                let jsonStr = JSON.stringify(result);
+                // 把拿到的字符串放到div里面展示出来
+                msgJson2.textContent = jsonStr;
+            } catch (e) {
+                // 如果请求报错（404、500、网络不通），会进入catch，打印错误信息到浏览器控制台
+                console.log(e);
+            }
+        });
     });
 </script>
 
