@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>文件上传和下载</title>
+</head>
+
+<body>
+<h1>文件上传</h1>
+
+<!--文件上传表单-->
+<!--form表单-->
+<!--1.method必须是post-->
+<!--2.enctype必须是multipart/form-data-->
+<!--3.使用文件上传的控件-->
+
+<form th:action="@{/file/upload}" method="post" enctype="multipart/form-data">
+    选择文件：<input type="file" name="fileName"/>
+    <input type="submit" value="点击上传文件">
+</form><hr>
+
+<!--文件下载-->
+<a th:href="@{/file/download}">点击下载文件</a>
+
+</body>
+</html>
