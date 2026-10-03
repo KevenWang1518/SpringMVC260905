@@ -46,19 +46,6 @@
         <property name="suffix" value=".jsp"/>
     </bean>
 
-    <!--自定义：处理器异常解析器（第一种方式：以xml配置文件的形式）
-    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-        配置优先级，确保走自定义的异常处理器，不走默认的异常处理器
-        <property name="order" value="1"/>
-        <property name="exceptionMappings">
-            <props>
-                用来指定出现异常后，跳转的视图
-                <prop key="java.lang.Exception">tip</prop>
-            </props>
-        </property>
-        将异常信息存储到request域，value属性用来指定存储时的key。
-        <property name="exceptionAttribute" value="exceptDetail"/>
-    </bean>-->
 
     <!--配置 控制器-视图 映射关系-->
     <!--第一步:要添加mvc的命名空间-->
@@ -68,13 +55,45 @@
     <mvc:annotation-driven/>
 
     <!--第一种方式：启用web容器内置的默认处理静态资源的Servlet-->
-    <!--如果配置了这个，那么静态资源的处理，仍然是web容器负责的。springmvc不管了。-->
+    <!--如果配置了这个，那么静态资源的处理，仍然是web容器负责的。SpringMVC不管了。-->
     <!--添加上这个配置之后，底层会注册一个处理器:DefaultServletHttpRequestHandler-->
     <!--底层交给了WEB容器的DefauLtServlet来处理静态资源，这种方式性能较差。因为Tomcat服务器处理静态资源的时候没有优化。-->
-    <!--当用户发达请求路径是一个静态资源的时候，springmvc中的 DefaultServletHttpRequestHandLer 处理器会自动将请求转发给DefaultServlet来处理-->
+    <!--当用户发达请求路径是一个静态资源的时候，SpringMVC中的 DefaultServletHttpRequestHandLer 处理器会自动将请求转发给DefaultServlet来处理-->
     <!--<mvc:default-servlet-handler/>-->
 
-    <!--第二种方式:springmvc自己负责静态资源响应处理了。不再找性能较低的DefaultServlet来负责了。-->
-    <!--前提是:需要通过以下的配置告诉springmvc，哪些资源属于静态资源。-->
+    <!--第二种方式:SpringMVC自己负责静态资源响应处理了。不再找性能较低的DefaultServlet来负责了。-->
+    <!--前提是:需要通过以下的配置告诉SpringMVC，哪些资源属于静态资源。-->
     <mvc:resources mapping="/static/**" location="/static/"/>
+
+    <!--配置拦截器：（第一种方式）-->
+    <!--执行顺序依靠配置的顺序:自上而下。-->
+    <!--<mvc:interceptors>
+        <bean class="com.wyjun.interceptor.MyInterceptor1"></bean>
+        <bean class="com.wyjun.interceptor.MyInterceptor2"></bean>
+        <bean class="com.wyjun.interceptor.MyInterceptor3"></bean>
+    </mvc:interceptors>-->
+
+    <!--配置拦截器：（第二种方式）-->
+    <!--注意要在类上配置@Component注解-->
+    <!--以下的配置表示，除 /test 请求路径之外，剩下的路径全部拦截。-->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <!--拦截所有路径-->
+            <mvc:mapping path="/**"/>
+            <!--除 /test 路径之外-->
+            <mvc:exclude-mapping path="/test"/>
+            <!--拦截器：一个拦截器内只能配置一个拦截器Bean-->
+            <ref bean="myInterceptor1"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/test/interceptor"/>
+            <ref bean="myInterceptor2"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <mvc:exclude-mapping path="/test"/>
+            <ref bean="myInterceptor3"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 </beans>
